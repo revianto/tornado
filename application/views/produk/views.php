@@ -11,7 +11,7 @@
           <div class="row">
             <!-- Hoverable Table rows -->
             <div class="card pb-3 px-4">
-                <table id="pegawai" class="table table-hover">
+                <table id="kt-tabel" class="table table-hover">
                 <div class="d-flex justify-content-between align-items-center">
                 <h5 class="card-header fw-bold px-1 pt-3 pb-3">List Produk</h5>
                 <div class="table-responsive text-nowrap">
@@ -29,7 +29,7 @@
                     <tr>
                       <th class="text-center">No</th>
                       <th class="text-center">Produk</th>
-                      <th class="text-center">Harga Produk</th>
+                      <th class="text-center">Stok</th>
                       <th class="text-center">Aksi</th>
                     </tr>
                   </thead>
@@ -41,7 +41,7 @@
                     <tr>
                         <td class="text-center"><?= $no; ?></td>
                         <td class="text-center"><?= $produk->produk; ?></td>
-                        <td class="text-center"><?= $produk->harga; ?></td>
+                        <td class="text-center"><?= $produk->stok; ?></td>
                         <td class="text-center">
                         <div class="dropdown">
                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

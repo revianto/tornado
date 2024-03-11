@@ -56,34 +56,20 @@
 			<div class="col-xxl">
                   <div class="card mb-4">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                      <h4 class="mb-0 fw-bold">Tambah Pesanan</h4>
-                      <small class="text-muted float-end">Tambah Pesanan</small>
+                      <h4 class="mb-0 fw-bold">Edit Produksi</h4>
+                      <small class="text-muted float-end">Edit Produksi</small>
                     </div>
                     <div class="card-body">
                       <!-- Form untuk menambahkan produk -->
                         <form class="form-horizontal" role="form" action="<?= $action; ?>" method="POST">
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="pegawai">Nama Pegawai</label>
-                                <div class="col-sm-10">
-                                    <select name="pegawai" class="form-select" data-placeholder="Pilih Pegawai . . .">
-                                        <option value="">Pilih Pegawai</option>
-                                        <?php foreach ($list_pegawai as $pegawai): ?>
-                                            <option value="<?= encrypt_url($pegawai->id_pegawai); ?>" <?= ($pegawai->id_pegawai == $selected_pegawai) ? 'selected' : ''; ?>>
-                                                <?= $pegawai->name; ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <span style="color: red;"><?= form_error('pegawai'); ?></span>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="produk">Produk</label>
                                 <div class="col-sm-10">
-                                    <select name="produk" class="form-select" data-placeholder="Pilih Produk . . .">
+                                    <select name="produk" id="produk" class="form-select" data-placeholder="Pilih Produk . . .">
                                         <option value="">Pilih Produk</option>
-                                        <?php foreach ($list_produk as $produk): ?>
+                                        <?php foreach ($list_produk as $produk) : ?>
                                             <option value="<?= encrypt_url($produk->id_produk); ?>" <?= ($produk->id_produk == $selected_produk) ? 'selected' : ''; ?>>
-                                                <?= $produk->produk; ?>
+                                            <?= $produk->produk; ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
@@ -91,52 +77,95 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="quantity">Jumlah</label>
+                                <label class="col-sm-2 col-form-label" for="name">Pegawai</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Masukkan Jumlah Pesanan . . ." autocomplete="off">
-                                    <span style="color: red;"><?= form_error('quantity'); ?></span>
+                                    <select name="name" id="name" class="form-select" data-placeholder="Pilih Pegawai . . .">
+                                        <option value="">Pilih Pegawai</option>
+                                        <?php foreach ($list_pegawai as $pegawai): ?>
+                                            <option value="<?= encrypt_url($pegawai->id); ?>" <?= ($pegawai->id == $selected_pegawai) ? 'selected' : ''; ?>>
+                                                <?= $pegawai->name; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <span style="color: red;"><?= form_error('Pegawai'); ?></span>
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="sell_price">Harga</label>
+                            <label class="col-sm-2 col-form-label" for="status_pengiriman">Status</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="sell_price" name="sell_price" placeholder="Masukkan Harga . . ." autocomplete="off">
-                                    <span style="color: red;"><?= form_error('sell_price'); ?></span>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="paid">Sudah Dibayar</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="paid" placeholder="Masukkan Nominal . . ." autocomplete="off">
-                                    <span style="color: red;"><?= form_error('paid'); ?></span>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="sell_price_total">Total Harga</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="sell_price_total" id="sell_price_total" placeholder="" value="" autocomplete="off">
-                                    <span style="color: red;"><?= form_error('sell_price_total'); ?></span>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="status">Status</label>
-                                <div class="col-sm-10">
-                                    <select name="status" id="status" class="form-select" data-placeholder="Pilih Status . . .">
+                                    <select name="status_pengiriman" id="status_pengiriman" class="form-select" data-placeholder="Pilih Status . . .">
                                         <option value="">Pilih Status</option>
-                                        <option value="Paid">Paid</option>
-                                        <option value="Unpaid">Unpaid</option>
-                                        <option value="Term">Term</option>
+                                        <option value="Sudah Dikirim">Sudah Dikirim</option>
+                                        <option value="Belum Dikirim">Belum Dikirim</option>
                                     </select>
                                     <span style="color: red;"><?= form_error('status'); ?></span>
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="note">Catatan</label>
+                                <label class="col-sm-2 col-form-label" for="target_produksi">Target Produksi</label>
                                 <div class="col-sm-10">
-                                    <textarea type="text" class="form-control" name="note" placeholder="" autocomplete="off"></textarea>
-                                    <span style="color: red;"><?= form_error('note'); ?></span>
+                                    <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="target_produksi" 
+                                    name="target_produksi" 
+                                    placeholder="Masukkan Target Produksi . . ." 
+                                    autocomplete="off"
+                                    value="<?php if (isset($target_produksi)) {
+                                    echo $target_produksi;
+                                        } ?>">
+                                    <span style="color: red;"><?= form_error('target_produksi'); ?></span>
                                 </div>
                             </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="hasil_produksi">Hasil Produksi</label>
+                                <div class="col-sm-10">
+                                    <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    name="hasil_produksi"
+                                    id="hasil_produksi" 
+                                    placeholder="Masukkan Hasil Produksi . . ." 
+                                    autocomplete="off"
+                                    value="<?php if (isset($hasil_produksi)) {
+                                    echo $hasil_produksi;
+                                        } ?>">
+                                    <span style="color: red;"><?= form_error('hasil_produksi'); ?></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="reject">Reject</label>
+                                <div class="col-sm-10">
+                                    <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    name="reject" 
+                                    id="reject"
+                                    placeholder="Reject . . ." 
+                                    autocomplete="off"
+                                    value="<?php if (isset($reject)) {
+                                    echo $reject;
+                                        } ?>">
+                                    <span style="color: red;"><?= form_error('reject'); ?></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label" for="stok">Stok</label>
+                                <div class="col-sm-10">
+                                    <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    name="stok" 
+                                    id="stok"
+                                    placeholder="Masukkan Stok . . ." 
+                                    autocomplete="off"
+                                    value="<?php if (isset($stok)) {
+                                    echo $stok;
+                                        } ?>">
+                                    <span style="color: red;"><?= form_error('stok'); ?></span>
+                                </div>
+                            </div>
+                            
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
                                     <button type="submit" class="btn btn-primary">
@@ -156,26 +185,3 @@
     </div>
   </div>
 </div>
-
-<!-- Total Harga -->
-<script>
-    function calculateTotalPrice() {
-        var quantity = parseFloat(document.getElementById('quantity').value);
-        var sellPrice = parseFloat(document.getElementById('sell_price').value.replace(",", ""));
-
-        if (!isNaN(quantity) && !isNaN(sellPrice)) {
-            var totalPrice = quantity * sellPrice;
-            document.getElementById('sell_price_total').value = totalPrice.toLocaleString('id');
-        } else {
-            document.getElementById('sell_price_total').value = '';
-        }
-    }
-
-    document.getElementById('sell_price').addEventListener('input', calculateTotalPrice);
-    document.getElementById('quantity').addEventListener('input', calculateTotalPrice);
-
-    function activateTotalPriceInput() {
-        document.getElementById('sell_price_total').disabled = false;
-        return true; // Pastikan formulir dapat diserahkan
-    }
-</script>

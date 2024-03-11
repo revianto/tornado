@@ -10,6 +10,7 @@ class Pembelian_model extends CI_Model
 	public function getAllPembelian()
 	{
 		$this->db->from("tb_pembelian");
+        $this->db->order_by('id_pembelian', 'DESC');
 
 		return $this->db->get();
 	}

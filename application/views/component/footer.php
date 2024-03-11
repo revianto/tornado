@@ -71,11 +71,16 @@
   <script src="<?= base_url('assets/') ?>js/scripts.bundle.js"></script>
 
   <script>
-    new DataTable('#pegawai', {
-      search: {
-            return: true
-        }
-    });
+  $(document).ready(function() {
+      // Inisialisasi DataTables
+      var table = $('#kt-tabel').DataTable();
+
+      // Tangani perubahan pada input tanggal
+      $('#tanggalFilter').on('change', function() {
+          var tanggal = $(this).val();
+          table.columns(1).search(tanggal).draw(); // Ganti 2 dengan indeks kolom yang berisi tanggal
+      });
+  });
   </script>
 
 </body>

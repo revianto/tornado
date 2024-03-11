@@ -11,12 +11,15 @@
           <div class="row">
             <!-- Hoverable Table rows -->
             <div class="card pb-3 px-4">
-                <table id="pegawai" class="table table-hover">
+                <table id="kt-tabel" class="table table-hover">
                 <div class="d-flex justify-content-between align-items-center">
                 <h5 class="card-header fw-bold px-1 pt-3 pb-3">List Produksi</h5>
-                <div class="table-responsive text-nowrap">
-                    <div class="pb-3 pt-4">
-                    <a href="#">
+                <div class="text-nowrap d-flex justify-content-between pb-3 pt-4 gap-3">
+                    <div class="">
+                      <input type="date" id="tanggalFilter" class="form-control">
+                    </div>
+                    <div class="">
+                    <a href="#" onclick="exportToExcel('kt-tabel', 'data')">
                         <button class="btn btn-outline-primary justify-content-center" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                             <i class="bx bx-export me-sm-1 pb-1"></i>
                             <span class="d-none d-sm-inline-block">Export</span>
@@ -28,6 +31,7 @@
                   <thead>
                     <tr>
                       <th class="text-center">No</th>
+                      <th class="text-center">TGL Produksi</th>
                       <th class="text-center">Produk</th>
                       <th class="text-center">Pegawai</th>
                       <th class="text-center">Status Pengiriman</th>
@@ -44,8 +48,9 @@
                         ?>
                     <tr>
                         <td class="text-center"><?= $no; ?></td>
-                        <td class="text-center"><?= $produksi->id_produk; ?></td>
-                        <td class="text-center"><?= $produksi->id_pegawai; ?></td>
+                        <td class="text-center"><?= $produksi->production_at; ?></td>
+                        <td class="text-center"><?= $produksi->produk; ?></td>
+                        <td class="text-center"><?= $produksi->nama_pegawai; ?></td>
                         <td class="text-center"><?= $produksi->status_pengiriman; ?></td>
                         <td class="text-center"><?= $produksi->target_produksi; ?></td>
                         <td class="text-center"><?= $produksi->hasil_produksi; ?></td>
@@ -56,10 +61,10 @@
                             <i class="bx bx-dots-vertical-rounded"></i>
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="<?= site_url('Produksi/update/' . $produksi->id_produk); ?>"
+                                <a class="dropdown-item" href="<?= site_url('Produksi/update/' . $produksi->id_produksi); ?>"
                                     ><i class="bx bx-edit-alt me-1"></i> Edit</a
                                 >
-                                <a class="dropdown-item" href="<?= site_url('Produksi/delete/' . $produksi->id_produk); ?>"
+                                <a class="dropdown-item" href="<?= site_url('Produksi/delete/' . $produksi->id_produksi); ?>"
                                     ><i class="bx bx-trash-alt me-1"></i> Hapus</a
                                 >
                             </div>
@@ -90,3 +95,37 @@
     </div>
   </div>
 </div>
+
+<!-- Download Table -->
+<script>
+function exportToExcel(tableID, filename = ''){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+    // Specify file name
+    filename = filename?filename+'.xls':'excel_data.xls';
+
+    // Create download link element
+    downloadLink = document.createElement("a");
+
+    document.body.appendChild(downloadLink);
+
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+        // Setting the file name
+        downloadLink.download = filename;
+
+        //triggering the function
+        downloadLink.click();
+    }
+}
+</script>

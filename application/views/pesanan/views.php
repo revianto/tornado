@@ -11,12 +11,16 @@
           <div class="row">
             <!-- Hoverable Table rows -->
             <div class="card pb-3 px-4">
-                <table id="pegawai" class="table table-hover">
+              <div class="table-responsive">
+                <table id="kt-tabel" class="table table-hover">
                 <div class="d-flex justify-content-between align-items-center">
                 <h5 class="card-header fw-bold px-1 pt-3 pb-3">List Data Pesanan</h5>
-                <div class="table-responsive text-nowrap">
-                    <div class="pb-3 pt-4">
-                    <a href="#" onclick="exportToExcel('pegawai', 'data')">
+                <div class="text-nowrap d-flex justify-content-between pb-3 pt-4 gap-3">
+                    <div class="">
+                      <input type="date" id="tanggalFilter" class="form-control">
+                    </div>
+                    <div class="">
+                    <a href="#" onclick="exportToExcel('kt-tabel', 'data')">
                         <button class="btn btn-outline-primary justify-content-center" tabindex="0" aria-controls="DataTables_Table_0" type="button">
                             <i class="bx bx-export me-sm-1 pb-1"></i>
                             <span class="d-none d-sm-inline-block">Export</span>
@@ -28,6 +32,7 @@
                   <thead>
                     <tr>
                       <th class="text-center">ID Pesanan</th>
+                      <th class="text-center">TGL Pesanan</th>
                       <th class="text-center">Nama Pelanggan</th>
                       <th class="text-center">Produk</th>
                       <th class="text-center">Jumlah</th>
@@ -38,11 +43,18 @@
                   </thead>
                   <tbody class="table-border-bottom-0">
                     <?php
+                    $tPaid = 0;
+										$tQuantity = 0;
+										$tUnpaid = 0;
                     $no = 1;
                     foreach ($listPesanan->result() as $pesanan) {
+                      $tPaid += $pesanan->paid;
+											$tQuantity += $pesanan->quantity;
+											$tUnpaid += $pesanan->unpaid;
                         ?>
                     <tr>
                         <td class="text-center"><?= $no; ?></td>
+                        <td class="text-center"><?= $pesanan->order_date; ?></td>
                         <td class="text-center"><?= $pesanan->nama_pelanggan; ?></td>
                         <td class="text-center"><?= $pesanan->produk; ?></td>
                         <td class="text-center"><?= $pesanan->quantity; ?></td>
@@ -72,7 +84,26 @@
                     }
                     ?>
                   </tbody>
+                  <tfoot>
+                    <tr>
+                      <th class="text-center" colspan="3"><b>Total</b></th>
+                      <th></th>
+                      <th class="text-center">
+                        <?= $tQuantity ?>
+                      </th>
+                      <th class="text-center">
+                        <?= rupiah($tPaid) ?>
+                      </th>
+                      <th class="text-center">
+                        <?= rupiah($tUnpaid) ?>
+                      </th>
+                      <!-- <th class="text-center"></th>
+                      <th class="text-center"></th> -->
+                    </tr>
+                  </tfoot>
                 </table>
+
+              </div>
                 <center class="py-4">
                     <a href="<?= site_url('Pesanan/add'); ?>">
                         <button class="btn btn-outline-primary justify-content-center" tabindex="0" aria-controls="DataTables_Table_0" type="button">

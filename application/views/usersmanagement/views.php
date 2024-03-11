@@ -28,7 +28,7 @@
                   </div>
                 </div>
               </div>
-              <table id="pegawai" class="table table-hover">
+              <table id="kt-tabel" class="table table-hover">
                 <thead>
                   <tr>
                     <th>No</th>

@@ -11,7 +11,7 @@
           <div class="row">
             <!-- Hoverable Table rows -->
             <div class="card pb-3 px-4">
-                <table id="pegawai" class="table table-hover">
+                <table id="kt-tabel" class="table table-hover">
                 <div class="d-flex justify-content-between align-items-center">
                 <h5 class="card-header fw-bold px-1 pt-3 pb-3">List Kategori Produk</h5>
                 <div class="table-responsive text-nowrap">

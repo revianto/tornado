@@ -10,6 +10,7 @@ class Pelanggan_model extends CI_Model
 	public function getAllPelanggan()
 	{
 		$this->db->from("tb_pelanggan");
+        $this->db->order_by('id_pelanggan', 'DESC');
 
 		return $this->db->get();
 	}

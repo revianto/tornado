@@ -12,6 +12,7 @@ class User_web_list_model extends CI_Model
 		$this->db->select("*, users.id as id_user");
 		$this->db->from("users");
 		$this->db->join('user_profiles', 'users.id = user_profiles.id', 'left');
+		$this->db->order_by('id_user', 'DESC');
 
 		return $this->db->get();
 	}

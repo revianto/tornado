@@ -9,12 +9,29 @@ class Produksi_model extends CI_Model
 
 	public function getAllProduksi()
 	{
-		$this->db->from("tb_produksi");
+		$this->db->from("view_produksi");
+		$this->db->order_by('id_produksi', 'DESC');
 
 		return $this->db->get();
 	}
 
-    public function getProduk($id_produksi)
+	function getAllPegawai()
+	{
+		$this->db->from('user_profiles');
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
+	function getAllProduk()
+	{
+		$this->db->from('view_produk');
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
+    public function getProduksi($id_produksi)
     {
         $this->db->where('id_produksi', $id_produksi);
         $this->db->select('*');
@@ -25,42 +42,29 @@ class Produksi_model extends CI_Model
         return $res[0];
     }
 
-    function getAllKategoriProduk()
+	function getDataProduksi($id_produksi)
 	{
-		$this->db->from('tb_kategori_produk');
-		$query = $this->db->get();
-
-		return $query->result();
-	}
-
-    function getDataProduk($id_produk)
-	{
-		$this->db->where('id_produk', $id_produk);
-		$this->db->from('view_produk');
+		$this->db->where('id_produksi', $id_produksi);
+		$this->db->from('view_produksi');
 		$query = $this->db->get();
 
 		return $query->row();
 	}
 
-    function addProduk($data)
-	{
-		$this->db->insert('tb_produk', $data);
-		$insert_id = $this->db->insert_id();
+    public function addProduksi($data)
+    {
+        $this->db->insert('tb_produksi', $data);
+    }
 
-		return $insert_id;
-	}
-
-	function updateProduk($id_produk, $data)
-	{
-		$this->db->where('id_produk', $id_produk);
-		$query = $this->db->update('tb_produk', $data);
-
-		return $query;
-	}
-
-	public function deleteProduk($condition)
+	public function updateProduksi($data, $condition)
 	{
 		$this->db->where($condition);
-		$this->db->delete('tb_produk');
+		$this->db->update('tb_produksi', $data);
+	}
+
+	public function deleteProduksi($condition)
+	{
+		$this->db->where($condition);
+		$this->db->delete('tb_produksi');
 	}
 }

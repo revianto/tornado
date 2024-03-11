@@ -14,16 +14,7 @@
                 <table id="pegawai" class="table table-hover">
                 <div class="d-flex justify-content-between align-items-center">
                 <h5 class="card-header fw-bold px-1 pt-3 pb-3">List Data Pegawai</h5>
-                <div class="table-responsive text-nowrap">
-                    <div class="pb-3 pt-4">
-                    <button class="btn btn-outline-primary" tabindex="0" aria-controls="DataTables_Table_0" type="button">
-                        <i class="bx bx-export me-sm-1"></i>
-                        <span class="d-none d-sm-inline-block">Export</span>
-                    </button>
-                    </div>
                 </div>
-                </div>
-
                   <thead>
                     <tr>
                       <th class="text-center">No</th>

@@ -10,6 +10,7 @@ class Pesanan_model extends CI_Model
 	public function getAllPesanan()
 	{
 		$this->db->from("view_pesanan");
+		$this->db->order_by('pesanan_id', 'DESC');
 
 		return $this->db->get();
 	}

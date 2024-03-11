@@ -88,130 +88,163 @@ class Produksi extends CI_Controller
 		$this->load->view('component/footer', $this->data);
 	}
 
-    public function add() {
-        $this->form_validation->set_rules('kategori_produk', 'Kategori Produk', 'required');
-        $this->form_validation->set_rules('produk', 'Produk', 'required');
-        $this->form_validation->set_rules('harga', 'Harga', 'required');
+    public function add()
+	{
+		$this->form_validation->set_rules('produk', 'Produk', 'required');
+		$this->form_validation->set_rules('name', 'Pegawai', 'required');
+		$this->form_validation->set_rules('status_pengiriman', 'Status', 'required');
+		$this->form_validation->set_rules('target_produksi', 'Terget Produksi', 'required');
+		$this->form_validation->set_rules('hasil_produksi', 'Hasil Produksi', 'required');
+		$this->form_validation->set_rules('reject', 'Reject', 'required');
+		$this->form_validation->set_rules('stok', 'Stok', 'required');
 
-        if ($this->form_validation->run() == TRUE) {
-            $data = array(
-                'id_kategori_produk' => decrypt_url($this->input->post('kategori_produk')),
-                'produk' => $this->input->post('produk'),
-                'harga' => $this->input->post('harga')
-            );
-
-            $this->Produk_model->addProduk($data);
-
-            redirect('Produk');
-        } else {
-            $this->data['selected_kategori_produk'] = $this->input->post('kategori_produk');
-            $this->data['produk'] = $this->input->post('produk');
-            $this->data['harga'] = $this->input->post('harga');
-
-            $this->data['list_kategori_produk'] = $this->Produk_model->getAllKategoriProduk();
-
-            $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-            $this->data['action'] = site_url('Produk/add');
-            $this->data['url'] = site_url('Produk');
-            $this->data['title'] = "Produk";
-
-            $this->data['breadcrumbs'] = [];
-
-            $this->data['breadcrumbs'][] = [
-                'active' => FALSE,
-                'text' => 'Produk / ',
-                'class' => 'breadcrumb-item pe-3',
-                'href' => ''
-            ];
-
-            $this->data['breadcrumbs'][] = [
-                'active' => TRUE,
-                'text' => 'Tambah Produk',
-                'class' => 'breadcrumb-item pe-3 text-gray-400',
-                'href' => site_url('Produk/add')
-            ];
-
-            $this->load->view('component/header', $this->data);
-            $this->load->view('component/sidebar', $this->data);
-            $this->load->view('component/navbar', $this->data);
-            $this->load->view('produk/form', $this->data);
-            $this->load->view('component/footer');
-        }
-    }
-
-	public function update($id_produk)
-    {
-        $this->form_validation->set_rules('kategori_produk', 'Kategori Produk', 'required');
-        $this->form_validation->set_rules('produk', 'Produk', 'required|trim');
-        $this->form_validation->set_rules('harga', 'Harga', 'required|trim');
-
-        if ($this->form_validation->run() == TRUE) {
-			$value_produk_update = $this->Produk_model->getDataProduk($id_produk);
+		if ($this->form_validation->run() == TRUE) {
 
 			$data = array(
-				'id_kategori_produk' => decrypt_url($this->input->post('kategori_produk')),
-				'produk' => $this->input->post('produk'),
-				'harga' => $this->input->post('harga')
+				'id_produk' => decrypt_url($this->input->post('produk')),
+				'id_pegawai' => decrypt_url($this->input->post('name')),
+				'status_pengiriman' => $this->input->post('status_pengiriman'),
+				'target_produksi' => $this->input->post('target_produksi'),
+				'hasil_produksi' => $this->input->post('hasil_produksi'),
+				'reject' => $this->input->post('reject'),
+				'stok' => $this->input->post('stok')
 			);
 
-			$result = $this->Produk_model->updateProduk(($id_produk), $data);
+			$this->Produksi_model->addProduksi($data);
 
-			if ($result) {
-				$this->session->set_flashdata('msg', 'Anda berhasil menyunting data produk');
-
-				redirect('produk');
-			}
+			redirect('Produksi');
 		} else {
-			$this->data['selected_kategori_produk'] = $this->input->post('kategori_produk');
-			$this->data['produk'] = $this->input->post('produk');
-			$this->data['harga'] = $this->input->post('harga');
+			$this->data['selected_produk'] = $this->input->post('produk');
+			$this->data['selected_pegawai'] = $this->input->post('name');
+			$this->data['status_pengiriman'] = $this->input->post('status_pengiriman');
+			$this->data['target_produksi'] = $this->input->post('target_produksi');
+			$this->data['hasil_produksi'] = $this->input->post('hasil_produksi');
+			$this->data['reject'] = $this->input->post('reject');
+			$this->data['stok'] = $this->input->post('stok');
 
-			$this->data['list_kategori_produk'] = $this->Produk_model->getAllKategoriProduk();
-
-			$value_produk = $this->Produk_model->getDataProduk($id_produk);
-
-			$this->data['id_produk'] = $id_produk;
-			$this->data['selected_kategori_produk'] = $value_produk->id_kategori_produk;
-			$this->data['produk'] = $value_produk->produk;
-			$this->data['harga'] = $value_produk->harga;
+			$this->data['listProduksi'] = $this->Produksi_model->getAllProduksi();
+			$this->data['list_produk'] = $this->Produksi_model->getAllProduk();
+			$this->data['list_pegawai'] = $this->Produksi_model->getAllPegawai();
 
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-			$this->data['action'] = site_url('produk/update/' . $id_produk);
-			$this->data['url'] = site_url('produk');
-			$this->data['title'] = "Produk";
+			$this->data['action'] = site_url('Produksi/add');
+			$this->data['url'] = site_url('Produksi');
+			$this->data['title'] = "Produksi";
+	
+			$this->data['breadcrumbs'] = [];
+	
+			$this->data['breadcrumbs'][] = [
+				'active' => FALSE,
+				'text' => 'Produksi / ',
+				'class' => 'breadcrumb-item pe-3',
+				'href' => ''
+			];
+	
+			$this->data['breadcrumbs'][] = [
+				'active' => TRUE,
+				'text' => 'Tambah Produksi',
+				'class' => 'breadcrumb-item pe-3 text-gray-400',
+				'href' => site_url('Produksi/add')
+			];
+
+			$this->load->view('component/header', $this->data);
+			$this->load->view('component/sidebar', $this->data);
+			$this->load->view('component/navbar', $this->data);
+			$this->load->view('produksi/form', $this->data);
+			$this->load->view('component/footer');
+		}
+	}
+
+	public function update($id_produksi)
+    {
+        $this->form_validation->set_rules('produk', 'Produk', 'required');
+		$this->form_validation->set_rules('name', 'Pegawai', 'required');
+		$this->form_validation->set_rules('status_pengiriman', 'Status', 'required');
+		$this->form_validation->set_rules('target_produksi', 'Terget Produksi', 'required');
+		$this->form_validation->set_rules('hasil_produksi', 'Hasil Produksi', 'required');
+		$this->form_validation->set_rules('reject', 'Reject', 'required');
+		$this->form_validation->set_rules('stok', 'Stok', 'required');
+
+        if ($this->form_validation->run() == TRUE) {
+			$value_produksi_update = $this->Produksi_model->getDataProduksi($id_produksi);
+
+			$data = array(
+				'id_produk' => decrypt_url($this->input->post('produk')),
+				'id_pegawai' => decrypt_url($this->input->post('name')),
+				'status_pengiriman' => $this->input->post('status_pengiriman'),
+				'target_produksi' => $this->input->post('target_produksi'),
+				'hasil_produksi' => $this->input->post('hasil_produksi'),
+				'reject' => $this->input->post('reject'),
+				'stok' => $this->input->post('stok')
+			);
+
+			$condition['id_produksi'] = $id_produksi;
+
+			$this->Produksi_model->updateProduksi($data, $condition);
+
+			redirect('produksi');
+			
+		} else {
+			$this->data['selected_produk'] = $this->input->post('id_produk');
+			$this->data['selected_pegawai'] = $this->input->post('id_pegawai');
+			$this->data['status_pengiriman'] = $this->input->post('status_pengiriman');
+			$this->data['target_produksi'] = $this->input->post('target_produksi');
+			$this->data['hasil_produksi'] = $this->input->post('hasil_produksi');
+			$this->data['reject'] = $this->input->post('reject');
+			$this->data['stok'] = $this->input->post('stok');
+
+			$this->data['list_produksi'] = $this->Produksi_model->getAllProduksi();
+			$this->data['list_produk'] = $this->Produksi_model->getAllProduk();
+			$this->data['list_pegawai'] = $this->Produksi_model->getAllPegawai();
+
+			$value_produksi = $this->Produksi_model->getProduksi($id_produksi);
+
+			$this->data['id_produksi'] = $id_produksi;
+			$this->data['selected_produk'] = $value_produksi->id_produk;
+			$this->data['selected_pegawai'] = $value_produksi->id_pegawai;
+			$this->data['status_pengiriman'] = $value_produksi->status_pengiriman;
+			$this->data['target_produksi'] = $value_produksi->target_produksi;
+			$this->data['hasil_produksi'] = $value_produksi->hasil_produksi;
+			$this->data['reject'] = $value_produksi->reject;
+			$this->data['stok'] = $value_produksi->stok;
+
+			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+			$this->data['action'] = site_url('produksi/update/' . $id_produksi);
+			$this->data['url'] = site_url('produksi');
+			$this->data['title'] = "Produksi";
 
 			$this->data['breadcrumbs'] = [];
 
 			$this->data['breadcrumbs'][] = [
 				'active' => FALSE,
-				'text' => 'Kelola Produk / ',
+				'text' => 'Kelola Produksi / ',
 				'class' => 'breadcrumb-item pe-3',
 				'href' => ''
 			];
 
 			$this->data['breadcrumbs'][] = [
 				'active' => TRUE,
-				'text' => 'Produk',
+				'text' => 'Produksi',
 				'class' => 'breadcrumb-item pe-3 text-gray-400',
-				'href' => site_url('produk')
+				'href' => site_url('produksi')
 			];
 
 			$this->load->view('component/header', $this->data);
 			$this->load->view('component/sidebar', $this->data);
 			$this->load->view('component/navbar', $this->data);
-			$this->load->view('produk/form', $this->data);
+			$this->load->view('produksi/edit', $this->data);
 			$this->load->view('component/footer');
 		}
     }
 
 
 
-	public function delete($id_produk)
+	public function delete($id_produksi)
 	{
-		$condition['id_produk'] = $id_produk;
+		$condition['id_produksi'] = $id_produksi;
 
-		$this->Produk_model->deleteProduk($condition);
+		$this->Produksi_model->deleteProduksi($condition);
 
-		redirect('Produk');
+		redirect('Produksi');
 	}
 }
